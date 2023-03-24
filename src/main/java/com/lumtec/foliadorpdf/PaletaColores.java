@@ -1,5 +1,6 @@
 package com.lumtec.foliadorpdf;
 
+import Interfaz.Foliador;
 import java.awt.Color;
 
 public class PaletaColores extends javax.swing.JPanel {
@@ -306,9 +307,7 @@ public class PaletaColores extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void asignarColor(Color cl) {
-        Settings.setColor(cl);
-        Foliador.jPanel1.setBackground(cl);
-        Foliador.abrir = 1;
+        //Ocultar la ventana
         this.setVisible(false);
     }
 

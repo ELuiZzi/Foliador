@@ -100,9 +100,6 @@ public class PDFCreacion {
         //Seleccionamos la página que vamos a duplicar
         PdfPage origPage = orig.getPage(1);
         float numberOfPages = (float) NoDeFolios / (float) FoliosXHoja;
-        System.out.println((float) NoDeFolios / (float) FoliosXHoja);
-        System.out.println("numberOfPages = " + (numberOfPages));
-        System.out.println("numberOfPages = " + Math.ceil(numberOfPages));
 
         //Mientras que la variable sea mas pequeña que el numero de páginas, seguirá creando páginas
         for (int i = 1; i <= Math.ceil(numberOfPages); i++) {
@@ -167,6 +164,7 @@ public class PDFCreacion {
         }
 
         documento.close();
+        PdfFoliado.close();
 
     }
 

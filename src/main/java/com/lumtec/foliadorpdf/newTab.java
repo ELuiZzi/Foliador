@@ -1,7 +1,6 @@
 package com.lumtec.foliadorpdf;
 
-import java.awt.Color;
-import java.awt.Cursor;
+import Interfaz.Foliador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
@@ -11,144 +10,149 @@ import javax.swing.JTextField;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
-public class newTab {
+public class NewTab {
 
-    private static int nTab = 2;
+    private static int nTab = 1;
+    private static int maxTabs = 9;
     private static int xTab = 90;
     private static int xButton = 180;
+
+    private static JPanel[] mesasTrabajo = new JPanel[9];
+    private static JPanel[] tabs = new JPanel[9];
 
     private JPanel background = new JPanel();
     private JPanel bar = new JPanel();
     private JPanel button = new JPanel();
-    private JPanel[] folios = new JPanel[32];
-    private JPanel[] tabs = new JPanel[32];
 
     private JLabel titleTab;
 
-    private JPanel tab;
-    private JPanel worktable;
+    //Los paneles que editaremos son siempre los mismos, es por eso que los iniciamos, y no los heredamos con argumentos.
+    //El primero es el Panel del contenido, y el seguno es la barra de Pestañas.
+    private JPanel barraPestañas = Foliador.barraPestañas;
+    private JPanel worktable = Foliador.workspace;
 
-    public newTab(JPanel work, JPanel bar, JPanel button) {
-        this.background = work;
-        this.bar = bar;
-        this.button = button;
-        folios[0] = work;
-    }
-
-    public void addPanel() {
-        this.background.removeAll();
-
-        newTab();
-
-        newWindow();
-
-        //Configs del button
-        this.button.setLocation(xButton, 0);
-
-        xTab = xTab + 90;
-        xButton = xButton + 90;
-
-        ++nTab;
-
-        //En caso de que se agreguen más de 9 tabs...
-        if (nTab == 9) {
-
+    public NewTab() {
+        //Si el indice está vacio, asignar el Panel por primera vez.
+        if(mesasTrabajo[0] == null){
+            mesasTrabajo[0] = Foliador.mesaTrabajo0;
         }
-
-        //Revalidar y repintar
-        this.background.revalidate();
-        this.bar.revalidate();
-        this.background.repaint();
-        this.bar.repaint();
+        
     }
 
-    //Nuevo tab
-    private void newTab() {
-        tab = new JPanel();
-
-        titleTab = new JLabel("Folio " + nTab);
-
-        //Configs del tab
-        tab.setName(Integer.toString(nTab - 1));
-        tab.setVisible(true);
-        tab.setLayout(new AbsoluteLayout());
-        tab.add(titleTab, new AbsoluteConstraints(10, 7));
-        addCloseButton(tab, tabs[nTab - 2]);
-        System.out.println(nTab - 2);
-        tab.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        tab.addMouseListener(new MouseAdapter() {
-            @Override
-            //Mostrar en Interfaz la ventana
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getComponent().getName());
-                background.removeAll();
-                background.add(folios[Integer.parseInt(e.getComponent().getName())], new AbsoluteConstraints(0, 0, 570, 500));
-                background.revalidate();
-                background.repaint();
-            }
-
-        });
-
-        //Guardar el Tab en un arreglo
-        tabs[nTab - 1] = tab;
-
-        //Agregar el tab a la interfaz
-        this.bar.add(tab, new AbsoluteConstraints(xTab, 0, 90, 30));
-    }
-
-    //Nueva Ventana
-    private void newWindow() {
-        worktable = new JPanel();
-
-        //Configs del table
-        worktable.setVisible(true);
-        worktable.setLayout(new AbsoluteLayout());
-        JTextField x = new JTextField("X" + nTab);
-        JTextField y = new JTextField("Y" + nTab);
-        JSlider xS = new JSlider();
-        xS.setOrientation(JSlider.HORIZONTAL);
-        JSlider yS = new JSlider();
-        yS.setOrientation(JSlider.VERTICAL);
-        worktable.add(x, new AbsoluteConstraints(75, 75, 110, 25));
-        worktable.add(y, new AbsoluteConstraints(300, 75, 110, 25));
-        worktable.add(xS, new AbsoluteConstraints(60, 110, 130, 25));
-        worktable.add(yS, new AbsoluteConstraints(410, 20, 25, 130));
-
-        folios[nTab - 1] = worktable;
-
-        this.background.add(worktable, new AbsoluteConstraints(0, 0, 570, 500));
-    }
-
-    private void addCloseButton(JPanel tab1, JPanel tab2) {
-        tab1.add(closeButton(), new AbsoluteConstraints(70, 8, 15, 15));
-        /*
-        Se crea el try, para la primera vez que no existe un tab, no nos de error de null.
-         */
-        try {
-            tab2.remove(1); //Lista que inicia en el -1 (-1,0,1), el botón es el tercer elemento
-        } catch (NullPointerException ex) {
-            System.out.println("Error");
+    public void nuevoFolio() {
+        //Se pueden crear 9 folios maximos
+        if (nTab < maxTabs) {
+            this.crearPestaña();
+            this.crearMesaTrabajo();
+            nTab++;
         }
 
     }
 
-    //Botón Cerrar
-    private JPanel closeButton() {
-        JPanel closeButton = new JPanel();
-        closeButton.setName("button");
-        closeButton.setBackground(new Color(255, 51, 60));
-        closeButton.addMouseListener(new MouseAdapter() {
+     /*
+    Crear el panel Pestaña, con sus elementos y configurarciones
+    */
+    private void crearPestaña() {
+
+        JPanel pestaña = new JPanel();
+
+        //El titulo de la pestaña es el numero de pestañas más 1, porque el Folio 1, ya está en default
+        JLabel titulo = new JLabel("Folio " + (nTab + 1));
+        titulo.setForeground(NewTabUtil.BACKGROUND_LABEL);
+
+        //Nombre de pestaña , para identificar el numero de folio
+        pestaña.setName(Integer.toString(nTab));
+        pestaña.setLayout(new AbsoluteLayout());
+        pestaña.setBackground(NewTabUtil.BACKGROUND_TAB);
+        pestaña.add(titulo, new AbsoluteConstraints(7, 7));
+        pestaña.setVisible(true);
+
+        /*ActionListener para el JPanel 'pestaña', que funge como botón
+        Que solo funciona al dar click dentro del panel, no influye en el comportamiento inicial
+        */
+        pestaña.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                bar.size();
-                bar.remove(nTab-2);
-                --nTab;
-                bar.revalidate();
-                bar.repaint();
+                //Convertir el nombre a int, que es index dentro del arreglo de mesas de trabajo.
+                int index = Integer.parseInt(pestaña.getName());
+                
+                agregarMesaTrabajo(getMesaTrabajo(index));
             }
+
         });
 
-        return closeButton;
+        agregarPestaña(pestaña);
 
     }
+
+    
+    /*
+    Crear el panel Mesa de Trabajo, con sus elementos y configurarciones
+    */
+    private void crearMesaTrabajo() {
+
+        int ejeYField = 75;
+        int widthField = 110;
+        int heigthField = 25;
+
+        JPanel mesaTrabajo = new JPanel();
+
+        //Componentes
+        JTextField cX, cY;
+        JSlider sliderX, sliderY;
+
+        cX = new JTextField("X" + (nTab + 1));
+        cY = new JTextField("Y" + (nTab + 1));
+
+        sliderX = new JSlider();
+        sliderY = new JSlider();
+
+        sliderX.setOrientation(JSlider.HORIZONTAL);
+        sliderY.setOrientation(JSlider.VERTICAL);
+        sliderX.setBackground(NewTabUtil.BACKGROUND_MESA_TRABAJO);
+        sliderY.setBackground(NewTabUtil.BACKGROUND_MESA_TRABAJO);
+
+        mesaTrabajo.setLayout(new AbsoluteLayout());
+        mesaTrabajo.setBackground(NewTabUtil.BACKGROUND_MESA_TRABAJO);
+        mesaTrabajo.add(cX, new AbsoluteConstraints(70, ejeYField, widthField, heigthField));
+        mesaTrabajo.add(cY, new AbsoluteConstraints(300, ejeYField, widthField, heigthField));
+        mesaTrabajo.add(sliderX, new AbsoluteConstraints(60, 110, 130, 25));
+        mesaTrabajo.add(sliderY, new AbsoluteConstraints(410, 20, 25, 130));
+
+        asignarMessaTrabajo(mesaTrabajo);
+
+        agregarMesaTrabajo(mesaTrabajo);
+
+    }
+
+    
+     /*
+    Agregar a la barra de Pestañas, un panel
+    */
+    private void agregarPestaña(JPanel pestaña) {
+        int ubicacionX = nTab * 90;
+        barraPestañas.add(pestaña, new AbsoluteConstraints(ubicacionX, 0, 90, 30));
+        barraPestañas.revalidate();
+        barraPestañas.repaint();
+    }
+
+     /*
+    Agregar a Background, un panel
+    */
+    public void agregarMesaTrabajo(JPanel mesaTrabajo) {
+        worktable.removeAll();
+
+        worktable.add(mesaTrabajo, new AbsoluteConstraints(0, 0, 510, 500));
+        worktable.revalidate();
+        worktable.repaint();
+    }
+
+    private void asignarMessaTrabajo(JPanel panel) {
+        NewTab.mesasTrabajo[nTab] = panel;
+    }
+
+    public static JPanel getMesaTrabajo(int index) {
+        return NewTab.mesasTrabajo[index];
+    }
+
 }

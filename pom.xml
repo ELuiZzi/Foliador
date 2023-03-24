@@ -15,7 +15,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.lumtec.foliadorpdf.Foliador</mainClass>
+                            <mainClass>Interfaz.Foliador</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -71,6 +71,5 @@
             <artifactId>AbsoluteLayout</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
-      
     </dependencies>
 </project>
