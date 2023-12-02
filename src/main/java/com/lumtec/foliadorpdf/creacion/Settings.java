@@ -1,8 +1,13 @@
-package com.lumtec.foliadorpdf;
+package com.lumtec.foliadorpdf.creacion;
 
+import com.lumtec.foliadorpdf.modelo.NewTabUtil;
+import com.lumtec.foliadorpdf.modelo.NewTab;
+import com.lumtec.foliadorpdf.modelo.Coordenadas;
 import com.itextpdf.kernel.colors.Color;
 import java.io.File;
-import javax.swing.JFileChooser;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.*;
 
 public class Settings {
 
@@ -20,29 +25,34 @@ public class Settings {
     //Si es la misma página la que se va a foliar, se tiene que multiplicar el numero de folios que necestiemos.
     //True es multiplicar hojas, false es foliar las hojas que viene en el PDF
     private static boolean duplicarPDF = true;
+    
+    private static List<com.lumtec.foliadorpdf.modelo.Coordenadas> Coordenadas = new ArrayList<>(); //Aquí se almacenan las coordenadas
 
     //Ventana se administrador de archivos, para seleccionar el PDF original
     static JFileChooser fileChooser = new JFileChooser();
 
-    private int foliosPorHoja;
+    private final int foliosPorHoja;
 
     //En que número va a iniciar y terminar los folios
-    private int folioInicial;
-    private int folioFinal;
+    private final int folioInicial;
+    private final int folioFinal;
 
-    private Coordinates[] coordenadas;
+    private static Coordenadas[] coordenadas;
 
     //Tamaño de la fuente
-    float fontSize;
+    private float fontSize;
 
     //Color del texto del folio
     private static Color fontColor;
 
-    public Settings(String nombreArchivo, int folioInicial, int folioFinal, int fontSize, int foliosPorHoja) {
+    public Settings(String nombreArchivo, int folioInicial, int folioFinal, float fontSize, int foliosPorHoja) {
         Settings.nombreArchivo = nombreArchivo;
         this.folioInicial = folioInicial;
         this.folioFinal = folioFinal;
         this.foliosPorHoja = foliosPorHoja;
+        this.fontSize = fontSize;
+
+
 
         System.out.println("Configuracion Guardada");
     }
@@ -113,12 +123,33 @@ public class Settings {
         Settings.duplicarPDF = duplicarPDF;
     }
 
-    public Coordinates[] getCoordenadas() {
-        return coordenadas;
+    public com.lumtec.foliadorpdf.modelo.Coordenadas[] getCoordenadas() {
+        return coordenadas != null ? coordenadas : new Coordenadas[0];
     }
 
-    public void setCoordenadas(Coordinates[] coordenadas) {
-        this.coordenadas = coordenadas;
+
+    public void setCoordenadas() {
+        Integer numFolios = NewTabUtil.maxTabs;
+
+        coordenadas = new Coordenadas[numFolios];
+
+        for (int i = 0; i < numFolios; i++) {
+            JPanel mesaTrabajo = NewTab.getMesaTrabajo(i);
+
+            // Verificar que el panel no sea null antes de intentar acceder a sus componentes
+            if (mesaTrabajo != null) {
+                JTextField cX = (JTextField) mesaTrabajo.getComponent(0);
+                JTextField cY = (JTextField) mesaTrabajo.getComponent(1);
+
+                float x = Float.parseFloat(cX.getText());
+                float y = Float.parseFloat(cY.getText());
+
+                coordenadas[i] = new Coordenadas(x, y);
+            } else {
+                // Manejar el caso en que el panel es null
+                coordenadas[i] = new Coordenadas(0, 0); // O alguna lógica predeterminada
+            }
+        }
     }
 
     //Abrir cuadro de busqueda, con filro de seleccion de archivos

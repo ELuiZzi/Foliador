@@ -1,6 +1,6 @@
-package com.lumtec.foliadorpdf;
+package com.lumtec.foliadorpdf.modelo;
 
-import Interfaz.Foliador;
+import com.lumtec.foliadorpdf.interfaz.Foliador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
@@ -13,12 +13,12 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 public class NewTab {
 
     private static int nTab = 1;
-    private static int maxTabs = 9;
+
     private static int xTab = 90;
     private static int xButton = 180;
 
-    private static JPanel[] mesasTrabajo = new JPanel[9];
-    private static JPanel[] tabs = new JPanel[9];
+    private static JPanel[] mesasTrabajo = new JPanel[NewTabUtil.maxTabs];
+    private static JPanel[] tabs = new JPanel[NewTabUtil.maxTabs];
 
     private JPanel background = new JPanel();
     private JPanel bar = new JPanel();
@@ -41,7 +41,7 @@ public class NewTab {
 
     public void nuevoFolio() {
         //Se pueden crear 9 folios maximos
-        if (nTab < maxTabs) {
+        if (nTab < NewTabUtil.maxTabs) {
             this.crearPestaña();
             this.crearMesaTrabajo();
             nTab++;

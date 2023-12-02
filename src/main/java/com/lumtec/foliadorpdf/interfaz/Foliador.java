@@ -1,14 +1,11 @@
-package Interfaz;
+package com.lumtec.foliadorpdf.interfaz;
 
-import com.lumtec.foliadorpdf.Coordinates;
-import com.lumtec.foliadorpdf.CrearPdf;
-import com.lumtec.foliadorpdf.Mensaje;
-import com.lumtec.foliadorpdf.PaletaColores;
-import com.lumtec.foliadorpdf.NewTab;
-import com.lumtec.foliadorpdf.Settings;
+import com.lumtec.foliadorpdf.modelo.Coordenadas;
+import com.lumtec.foliadorpdf.creacion.CrearPdf;
+import com.lumtec.foliadorpdf.modelo.NewTab;
+import com.lumtec.foliadorpdf.creacion.Settings;
+
 import java.awt.Color;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class Foliador extends javax.swing.JFrame {
 
@@ -19,7 +16,7 @@ public class Foliador extends javax.swing.JFrame {
     NewTab newTab;
     Settings settings;
     CrearPdf crearPDF;
-    Coordinates coordenadas[];
+
 
     public Foliador() {
 
@@ -29,9 +26,6 @@ public class Foliador extends javax.swing.JFrame {
 
     }
 
-    static boolean f1 = false, f2 = false, f3 = false, f4 = false;
-
-    private static String ruta;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -227,13 +221,9 @@ public class Foliador extends javax.swing.JFrame {
         mesaTrabajo0.setBackground(new java.awt.Color(60, 63, 66));
         mesaTrabajo0.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cX.setBackground(new java.awt.Color(255, 255, 255));
-        cX.setForeground(new java.awt.Color(0, 0, 0));
         cX.setText("X1");
         mesaTrabajo0.add(cX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 75, 110, 25));
 
-        cY.setBackground(new java.awt.Color(255, 255, 255));
-        cY.setForeground(new java.awt.Color(0, 0, 0));
         cY.setText("Y1");
         mesaTrabajo0.add(cY, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 75, 110, 25));
 
@@ -318,8 +308,7 @@ public class Foliador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    static int abrir = 1;
-    PaletaColores paleta = new PaletaColores();
+
     private void botonCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCerrarMouseClicked
         this.dispose();
     }//GEN-LAST:event_botonCerrarMouseClicked
@@ -349,22 +338,20 @@ public class Foliador extends javax.swing.JFrame {
     }//GEN-LAST:event_selectFileButtonMouseClicked
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        //Asiganr Settings
+        String nombreArchivo = nombreArchivoTextbox.getText();
+        int folioInicial = Integer.parseInt(folioInicialField.getText());
+        int folioFinal = Integer.parseInt(folioFinalField.getText());
+        float fontSize = Float.parseFloat(fontSizeBox.getSelectedItem().toString());
+
+        settings = new Settings(nombreArchivo, folioInicial, folioFinal, fontSize, numeroFolios);
+
+        //Asigar Coordenadas
+        settings.setCoordenadas();
 
         while (true) {
             //Verificar que se ha seleccionado algún PDF
             if (Settings.getUbicacionPdfOriginal() != null) {
-                //Asiganr Settings
-                String nombreArchivo = nombreArchivoTextbox.getText();
-                int folioInicial = Integer.parseInt(folioInicialField.getText());
-                int folioFinal = Integer.parseInt(folioFinalField.getText());
-                int fontSize = Integer.parseInt(fontSizeBox.getSelectedItem().toString());
-
-                settings = new Settings(nombreArchivo, folioInicial, folioFinal, fontSize, numeroFolios);
-
-                //Asigar Coordenadas
-                asignarCoordenadas();
-                settings.setCoordenadas(coordenadas);
-
                 //Crear PDF
                 CrearPdf crearPdf = new CrearPdf(settings);
                 break;
@@ -457,13 +444,7 @@ public class Foliador extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //Debe de recibir un arreglo del tipo JPanel, que contenga cada mesa de trabajo, que a su vez, contienen las coordenas de cada folio
-    private void asignarCoordenadas() {
-        this.coordenadas = new Coordinates[this.numeroFolios];
-        for (int i = 0; i < this.coordenadas.length; i++) {
 
-            this.coordenadas[i] = new Coordinates(15, 15);
-        }
-    }
 
     private void cargarPdf() {
 

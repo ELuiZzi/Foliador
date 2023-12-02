@@ -1,6 +1,6 @@
-package com.lumtec.foliadorpdf;
+package com.lumtec.foliadorpdf.creacion;
 
-import Interfaz.Foliador;
+import com.lumtec.foliadorpdf.interfaz.Foliador;
 import java.awt.Color;
 
 public class PaletaColores extends javax.swing.JPanel {
@@ -39,7 +39,7 @@ public class PaletaColores extends javax.swing.JPanel {
 
         Blanco3.setBackground(new java.awt.Color(25, 229, 255));
         Blanco3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Blanco3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Blanco3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout Blanco3Layout = new javax.swing.GroupLayout(Blanco3);
         Blanco3.setLayout(Blanco3Layout);
@@ -54,7 +54,7 @@ public class PaletaColores extends javax.swing.JPanel {
 
         Blanco8.setBackground(new java.awt.Color(255, 255, 51));
         Blanco8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Blanco8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Blanco8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout Blanco8Layout = new javax.swing.GroupLayout(Blanco8);
         Blanco8.setLayout(Blanco8Layout);
@@ -69,7 +69,7 @@ public class PaletaColores extends javax.swing.JPanel {
 
         Blanco10.setBackground(new java.awt.Color(51, 255, 0));
         Blanco10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Blanco10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Blanco10.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout Blanco10Layout = new javax.swing.GroupLayout(Blanco10);
         Blanco10.setLayout(Blanco10Layout);
@@ -88,7 +88,7 @@ public class PaletaColores extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         blancoBt.setBackground(new java.awt.Color(255, 255, 255));
-        blancoBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        blancoBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         blancoBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 blancoBtMouseClicked(evt);
@@ -111,7 +111,7 @@ public class PaletaColores extends javax.swing.JPanel {
         negroBt.setBackground(new java.awt.Color(0, 0, 0));
         negroBt.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         negroBt.setForeground(new java.awt.Color(204, 204, 204));
-        negroBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        negroBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         negroBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 negroBtMouseClicked(evt);
@@ -133,7 +133,7 @@ public class PaletaColores extends javax.swing.JPanel {
 
         grisBt.setBackground(new java.awt.Color(210, 210, 210));
         grisBt.setForeground(new java.awt.Color(204, 204, 204));
-        grisBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        grisBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         grisBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 grisBtMouseClicked(evt);
@@ -154,7 +154,7 @@ public class PaletaColores extends javax.swing.JPanel {
         add(grisBt, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 20, 20));
 
         azulBt.setBackground(new java.awt.Color(0, 51, 255));
-        azulBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        azulBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         azulBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 azulBtMouseClicked(evt);
@@ -175,7 +175,7 @@ public class PaletaColores extends javax.swing.JPanel {
         add(azulBt, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 20, 20));
 
         rosaBt.setBackground(new java.awt.Color(255, 51, 255));
-        rosaBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rosaBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         rosaBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rosaBtMouseClicked(evt);
@@ -196,7 +196,7 @@ public class PaletaColores extends javax.swing.JPanel {
         add(rosaBt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 20, 20));
 
         rojoBt.setBackground(new java.awt.Color(255, 0, 0));
-        rojoBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rojoBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         rojoBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rojoBtMouseClicked(evt);
@@ -217,7 +217,7 @@ public class PaletaColores extends javax.swing.JPanel {
         add(rojoBt, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 20, 20));
 
         amarilloBt.setBackground(new java.awt.Color(255, 255, 51));
-        amarilloBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        amarilloBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         amarilloBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 amarilloBtMouseClicked(evt);
@@ -238,7 +238,7 @@ public class PaletaColores extends javax.swing.JPanel {
         add(amarilloBt, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 20, 20));
 
         verdeBt.setBackground(new java.awt.Color(51, 255, 0));
-        verdeBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        verdeBt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         verdeBt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 verdeBtMouseClicked(evt);
