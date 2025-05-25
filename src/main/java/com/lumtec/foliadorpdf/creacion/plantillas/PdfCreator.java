@@ -1,9 +1,10 @@
-package com.lumtec.foliadorpdf.creacion;
+package com.lumtec.foliadorpdf.creacion.plantillas;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.lumtec.foliadorpdf.creacion.Settings;
 
 import java.io.IOException;
 
 public interface PdfCreator {
-    void createPDF(PdfDocument pdfAFoliar) throws IOException;
+    void imprimirFolios(PdfDocument pdfAFoliar, Settings settings) throws IOException;
 }

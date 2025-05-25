@@ -14,35 +14,26 @@ public class NewTab {
 
     private static int nTab = 1;
 
-    private static int xTab = 90;
-    private static int xButton = 180;
-
-    private static JPanel[] mesasTrabajo = new JPanel[NewTabUtil.maxTabs];
-    private static JPanel[] tabs = new JPanel[NewTabUtil.maxTabs];
-
-    private JPanel background = new JPanel();
-    private JPanel bar = new JPanel();
-    private JPanel button = new JPanel();
-
-    private JLabel titleTab;
+    private static final JPanel[] mesasTrabajo = new JPanel[NewTabUtil.maxTabs];
 
     //Los paneles que editaremos son siempre los mismos, es por eso que los iniciamos, y no los heredamos con argumentos.
-    //El primero es el Panel del contenido, y el seguno es la barra de Pestañas.
-    private JPanel barraPestañas = Foliador.barraPestañas;
-    private JPanel worktable = Foliador.workspace;
+    //El primero es el Panel del contenido, y el segundo es la barra de Pestañas.
+    private final JPanel barraPestanias = Foliador.barraPestanias;
+    private final JPanel worktable = Foliador.workspace;
 
     public NewTab() {
-        //Si el indice está vacio, asignar el Panel por primera vez.
+        //Si el índice está vació, asignar el Panel por primera vez.
         if(mesasTrabajo[0] == null){
             mesasTrabajo[0] = Foliador.mesaTrabajo0;
         }
+
         
     }
 
     public void nuevoFolio() {
-        //Se pueden crear 9 folios maximos
+        //Se pueden crear 9 folios máximo
         if (nTab < NewTabUtil.maxTabs) {
-            this.crearPestaña();
+            this.crearPestania();
             this.crearMesaTrabajo();
             nTab++;
         }
@@ -50,44 +41,44 @@ public class NewTab {
     }
 
      /*
-    Crear el panel Pestaña, con sus elementos y configurarciones
+    Crear el panel Pestaña, con sus elementos y configuraciones
     */
-    private void crearPestaña() {
+    private void crearPestania() {
 
-        JPanel pestaña = new JPanel();
+        JPanel pestania = new JPanel();
 
-        //El titulo de la pestaña es el numero de pestañas más 1, porque el Folio 1, ya está en default
+        //El título de la pestania es el número de pestañas más 1, porque el Folio 1, ya está en default
         JLabel titulo = new JLabel("Folio " + (nTab + 1));
         titulo.setForeground(NewTabUtil.BACKGROUND_LABEL);
 
-        //Nombre de pestaña , para identificar el numero de folio
-        pestaña.setName(Integer.toString(nTab));
-        pestaña.setLayout(new AbsoluteLayout());
-        pestaña.setBackground(NewTabUtil.BACKGROUND_TAB);
-        pestaña.add(titulo, new AbsoluteConstraints(7, 7));
-        pestaña.setVisible(true);
+        //Nombre de pestania, para identificar el número de folio
+        pestania.setName(Integer.toString(nTab));
+        pestania.setLayout(new AbsoluteLayout());
+        pestania.setBackground(NewTabUtil.BACKGROUND_TAB);
+        pestania.add(titulo, new AbsoluteConstraints(7, 7));
+        pestania.setVisible(true);
 
-        /*ActionListener para el JPanel 'pestaña', que funge como botón
-        Que solo funciona al dar click dentro del panel, no influye en el comportamiento inicial
+        /*ActionListener para el JPanel 'pestania', que funge como botón
+        Que solo funciona al dar clic dentro del panel, no influye en el comportamiento inicial
         */
-        pestaña.addMouseListener(new MouseAdapter() {
+        pestania.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //Convertir el nombre a int, que es index dentro del arreglo de mesas de trabajo.
-                int index = Integer.parseInt(pestaña.getName());
+                int index = Integer.parseInt(pestania.getName());
                 
                 agregarMesaTrabajo(getMesaTrabajo(index));
             }
 
         });
 
-        agregarPestaña(pestaña);
+        agregarPestania(pestania);
 
     }
 
     
     /*
-    Crear el panel Mesa de Trabajo, con sus elementos y configurarciones
+    Crear el panel Mesa de Trabajo, con sus elementos y configuraciones
     */
     private void crearMesaTrabajo() {
 
@@ -98,11 +89,16 @@ public class NewTab {
         JPanel mesaTrabajo = new JPanel();
 
         //Componentes
-        JTextField cX, cY;
         JSlider sliderX, sliderY;
+        JTextField cX, cY;
 
-        cX = new JTextField("X" + (nTab + 1));
-        cY = new JTextField("Y" + (nTab + 1));
+
+        cX = new JTextField(String.valueOf(nTab + 1));
+        cY = new JTextField(String.valueOf(nTab + 1));
+
+        cX.setHorizontalAlignment(JTextField.CENTER);
+        cY.setHorizontalAlignment(JTextField.CENTER);
+
 
         sliderX = new JSlider();
         sliderY = new JSlider();
@@ -119,7 +115,7 @@ public class NewTab {
         mesaTrabajo.add(sliderX, new AbsoluteConstraints(60, 110, 130, 25));
         mesaTrabajo.add(sliderY, new AbsoluteConstraints(410, 20, 25, 130));
 
-        asignarMessaTrabajo(mesaTrabajo);
+        asignarMesaTrabajo(mesaTrabajo);
 
         agregarMesaTrabajo(mesaTrabajo);
 
@@ -129,11 +125,11 @@ public class NewTab {
      /*
     Agregar a la barra de Pestañas, un panel
     */
-    private void agregarPestaña(JPanel pestaña) {
+    private void agregarPestania(JPanel pestania) {
         int ubicacionX = nTab * 90;
-        barraPestañas.add(pestaña, new AbsoluteConstraints(ubicacionX, 0, 90, 30));
-        barraPestañas.revalidate();
-        barraPestañas.repaint();
+        barraPestanias.add(pestania, new AbsoluteConstraints(ubicacionX, 0, 90, 30));
+        barraPestanias.revalidate();
+        barraPestanias.repaint();
     }
 
      /*
@@ -147,7 +143,7 @@ public class NewTab {
         worktable.repaint();
     }
 
-    private void asignarMessaTrabajo(JPanel panel) {
+    private void asignarMesaTrabajo(JPanel panel) {
         NewTab.mesasTrabajo[nTab] = panel;
     }
 

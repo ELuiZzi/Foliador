@@ -11,8 +11,7 @@ import com.lumtec.foliadorpdf.modelo.Coordenadas;
 import com.lumtec.foliadorpdf.modelo.RellenoCeros;
 
 
-
-public class ImpresoraFolios implements PdfCreator {
+public class ImpresoraFoliosOriginal implements PdfCreator {
 
     @Override
     public void imprimirFolios(PdfDocument pdfAFoliar, Settings settings) {
@@ -32,7 +31,7 @@ public class ImpresoraFolios implements PdfCreator {
                 }
 
                 for (int tab = 0; tab < numeroPilas; tab++) {
-                    int folio = (pagina - 1) * numeroPilas * 1 + tab * 1 + settings.getFolioInicial();
+                    int folio = (pagina - 1) * numeroPilas * 1 + tab * 1 + Settings.getFolioInicial();
 
 
 

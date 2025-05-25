@@ -1,21 +1,20 @@
 package com.lumtec.foliadorpdf.interfaz;
 
-import com.lumtec.foliadorpdf.modelo.Coordenadas;
 import com.lumtec.foliadorpdf.creacion.CrearPdf;
 import com.lumtec.foliadorpdf.modelo.NewTab;
 import com.lumtec.foliadorpdf.creacion.Settings;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Objects;
+
 
 public class Foliador extends javax.swing.JFrame {
 
-    //Numero de folios se puede entender como el número de pestañas abiertas. Por default, solo hay 1
+    //Número de folios se puede entender como el número de pestañas abiertas. Por default, solo hay 1
     int numeroFolios = 1;
-    Color activ = new Color(230, 230, 230);
-    Color desa = new Color(255, 255, 255);
     NewTab newTab;
     Settings settings;
-    CrearPdf crearPDF;
 
 
     public Foliador() {
@@ -24,48 +23,58 @@ public class Foliador extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Foliador");
 
+        newTab = new NewTab();
+
     }
 
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents() {
 
-        background = new javax.swing.JPanel();
-        vistaPreviaPanel = new javax.swing.JPanel();
-        vistaPrevia = new javax.swing.JPanel();
-        configs = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        JPanel background = new JPanel();
+        JPanel vistaPreviaPanel = new JPanel();
+        JPanel vistaPrevia = new JPanel();
+        JPanel configs = new JPanel();
+        JPanel jPanel7 = new JPanel();
+
+        //JTextField
         folioInicialField = new javax.swing.JTextField();
         folioFinalField = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel16 = new javax.swing.JLabel();
+        numeroCopias = new javax.swing.JTextField();
+        //JLabel
+
+        JLabel jLabel13 = new JLabel();
+        JLabel jLabel14 = new JLabel();
+        JLabel jLabel15 = new JLabel();
+        JLabel jLabel16 = new JLabel();
+        jLabel4 = new JLabel();
+
+        JSeparator jSeparator1 = new JSeparator();
+
         fontSizeBox = new javax.swing.JComboBox<>();
-        jPanel8 = new javax.swing.JPanel();
-        jSeparator4 = new javax.swing.JSeparator();
+        JPanel jPanel8 = new JPanel();
+        JSeparator jSeparator4 = new JSeparator();
         onOffButton = new javax.swing.JToggleButton();
-        jLabel2 = new javax.swing.JLabel();
+        JLabel jLabel2 = new JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
-        jLabel3 = new javax.swing.JLabel();
-        barraPestañas = new javax.swing.JPanel();
-        Folio1Tab = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
+        JLabel jLabel3 = new JLabel();
+        barraPestanias = new javax.swing.JPanel();
+        // Variables declaration - do not modify                     
+        JPanel folio1Tab = new JPanel();
+        JLabel jLabel18 = new JLabel();
         workspace = new javax.swing.JPanel();
         mesaTrabajo0 = new javax.swing.JPanel();
-        cX = new javax.swing.JTextField();
-        cY = new javax.swing.JTextField();
-        sliderX = new javax.swing.JSlider();
-        sliderY = new javax.swing.JSlider();
-        newFolio = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        barraInformativa = new javax.swing.JPanel();
-        botonCerrar = new javax.swing.JPanel();
+        JTextField cX = new JTextField();
+        JTextField cY = new JTextField();
+        JSlider sliderX = new JSlider();
+        JSlider sliderY = new JSlider();
+        JPanel newFolio = new JPanel();
+        JLabel jLabel17 = new JLabel();
+        JPanel barraInformativa = new JPanel();
+        JPanel botonCerrar = new JPanel();
         nombreArchivoTextbox = new javax.swing.JTextField();
-        selectFileButton = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        JPanel selectFileButton = new JPanel();
+        JLabel jLabel1 = new JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
@@ -83,12 +92,12 @@ public class Foliador extends javax.swing.JFrame {
         javax.swing.GroupLayout vistaPreviaLayout = new javax.swing.GroupLayout(vistaPrevia);
         vistaPrevia.setLayout(vistaPreviaLayout);
         vistaPreviaLayout.setHorizontalGroup(
-            vistaPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+                vistaPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 310, Short.MAX_VALUE)
         );
         vistaPreviaLayout.setVerticalGroup(
-            vistaPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+                vistaPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 410, Short.MAX_VALUE)
         );
 
         vistaPreviaPanel.add(vistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 310, 410));
@@ -99,15 +108,15 @@ public class Foliador extends javax.swing.JFrame {
         configs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel7.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel7MouseClicked(evt);
+                jPanel7MouseClicked();
             }
         });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Arial", Font.BOLD, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Crear");
         jPanel7.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 8, -1, -1));
@@ -125,6 +134,13 @@ public class Foliador extends javax.swing.JFrame {
         folioFinalField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         folioFinalField.setText("500");
         configs.add(folioFinalField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 7, 65, 25));
+
+        numeroCopias.setBackground(new java.awt.Color(73, 75, 78));
+        numeroCopias.setBackground(new java.awt.Color(73, 75, 78));
+        numeroCopias.setForeground(new java.awt.Color(188, 188, 188));
+        numeroCopias.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        numeroCopias.setText("0");
+        configs.add(numeroCopias, new org.netbeans.lib.awtextra.AbsoluteConstraints(622, 9, 50, 23));
 
         jLabel14.setForeground(new java.awt.Color(188, 188, 188));
         jLabel14.setText("Fuente");
@@ -144,7 +160,7 @@ public class Foliador extends javax.swing.JFrame {
         configs.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 40, -1, -1));
 
         fontSizeBox.setEditable(true);
-        fontSizeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "11" }));
+        fontSizeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"11"}));
         fontSizeBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 1, 1));
         configs.add(fontSizeBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 50, -1));
 
@@ -153,12 +169,12 @@ public class Foliador extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 60, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 21, Short.MAX_VALUE)
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 21, Short.MAX_VALUE)
         );
 
         configs.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(263, 10, 60, 21));
@@ -169,11 +185,7 @@ public class Foliador extends javax.swing.JFrame {
         configs.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 7, 10, 46));
 
         onOffButton.setText("Consecutivo");
-        onOffButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onOffButtonActionPerformed(evt);
-            }
-        });
+        onOffButton.addActionListener(this::onOffButtonActionPerformed);
         configs.add(onOffButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 100, -1));
 
         jLabel2.setForeground(new java.awt.Color(188, 188, 188));
@@ -182,11 +194,7 @@ public class Foliador extends javax.swing.JFrame {
         configs.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(363, 38, 100, -1));
 
         jToggleButton1.setText("1er Pagina");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
+        jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
         configs.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 100, -1));
 
         jLabel3.setForeground(new java.awt.Color(188, 188, 188));
@@ -194,26 +202,31 @@ public class Foliador extends javax.swing.JFrame {
         jLabel3.setText("Pagina Foliada");
         configs.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 38, 100, -1));
 
+        jLabel4.setForeground(new java.awt.Color(188, 188, 188));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Número de Copias");
+        configs.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 38, 100, -1));
+
         background.add(configs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 970, 60));
 
-        barraPestañas.setBackground(new java.awt.Color(51, 51, 51));
-        barraPestañas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        barraPestanias.setBackground(new java.awt.Color(51, 51, 51));
+        barraPestanias.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Folio1Tab.setBackground(new java.awt.Color(62, 65, 67));
-        Folio1Tab.addMouseListener(new java.awt.event.MouseAdapter() {
+        folio1Tab.setBackground(new java.awt.Color(62, 65, 67));
+        folio1Tab.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Folio1TabMouseClicked(evt);
+                Folio1TabMouseClicked();
             }
         });
-        Folio1Tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        folio1Tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel18.setForeground(new java.awt.Color(188, 188, 188));
         jLabel18.setText("Folio 1");
-        Folio1Tab.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 7, -1, -1));
+        folio1Tab.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 7, -1, -1));
 
-        barraPestañas.add(Folio1Tab, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
+        barraPestanias.add(folio1Tab, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
-        background.add(barraPestañas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 30));
+        background.add(barraPestanias, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 30));
 
         workspace.setBackground(new java.awt.Color(53, 56, 58));
         workspace.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -221,10 +234,12 @@ public class Foliador extends javax.swing.JFrame {
         mesaTrabajo0.setBackground(new java.awt.Color(60, 63, 66));
         mesaTrabajo0.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cX.setText("X1");
+        cX.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cX.setText("1");
         mesaTrabajo0.add(cX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 75, 110, 25));
 
-        cY.setText("Y1");
+        cY.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cY.setText("1");
         mesaTrabajo0.add(cY, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 75, 110, 25));
 
         sliderX.setBackground(new java.awt.Color(60, 63, 66));
@@ -239,15 +254,15 @@ public class Foliador extends javax.swing.JFrame {
         background.add(workspace, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 510, 500));
 
         newFolio.setBackground(new java.awt.Color(70, 73, 75));
-        newFolio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        newFolio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         newFolio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                newFolioMouseClicked(evt);
+                newFolioMouseClicked();
             }
         });
         newFolio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setFont(new java.awt.Font("Arial", 0, 30)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Arial", Font.PLAIN, 30)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(188, 188, 188));
         jLabel17.setText("+");
         newFolio.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, -2, -1, -1));
@@ -260,28 +275,28 @@ public class Foliador extends javax.swing.JFrame {
         barraInformativa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         botonCerrar.setBackground(new java.awt.Color(255, 0, 0));
-        botonCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        botonCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botonCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botonCerrarMouseClicked(evt);
+                botonCerrarMouseClicked();
             }
         });
 
         javax.swing.GroupLayout botonCerrarLayout = new javax.swing.GroupLayout(botonCerrar);
         botonCerrar.setLayout(botonCerrarLayout);
         botonCerrarLayout.setHorizontalGroup(
-            botonCerrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 19, Short.MAX_VALUE)
+                botonCerrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 19, Short.MAX_VALUE)
         );
         botonCerrarLayout.setVerticalGroup(
-            botonCerrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 19, Short.MAX_VALUE)
+                botonCerrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 19, Short.MAX_VALUE)
         );
 
         barraInformativa.add(botonCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(948, 3, 19, 19));
 
         nombreArchivoTextbox.setBackground(new java.awt.Color(200, 200, 210));
-        nombreArchivoTextbox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nombreArchivoTextbox.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 14)); // NOI18N
         nombreArchivoTextbox.setForeground(new java.awt.Color(51, 51, 51));
         nombreArchivoTextbox.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         nombreArchivoTextbox.setText("nombre Archivo");
@@ -292,7 +307,7 @@ public class Foliador extends javax.swing.JFrame {
         selectFileButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         selectFileButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                selectFileButtonMouseClicked(evt);
+                selectFileButtonMouseClicked();
             }
         });
         selectFileButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -306,47 +321,53 @@ public class Foliador extends javax.swing.JFrame {
         getContentPane().add(barraInformativa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 969, 25));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
 
-    private void botonCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCerrarMouseClicked
+    private void botonCerrarMouseClicked() {//GEN-FIRST:event_botonCerrarMouseClicked
         this.dispose();
     }//GEN-LAST:event_botonCerrarMouseClicked
 
-    private void newFolioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newFolioMouseClicked
-        newTab = new NewTab();
+    private void newFolioMouseClicked() {//GEN-FIRST:event_newFolioMouseClicked
+
         newTab.nuevoFolio();
         this.numeroFolios++;
     }//GEN-LAST:event_newFolioMouseClicked
 
-    private void Folio1TabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Folio1TabMouseClicked
+    private void Folio1TabMouseClicked() {//GEN-FIRST:event_Folio1TabMouseClicked
         newTab.agregarMesaTrabajo(NewTab.getMesaTrabajo(0));
     }//GEN-LAST:event_Folio1TabMouseClicked
 
     private void onOffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOffButtonActionPerformed
         if (onOffButton.isSelected()) {
-            Settings.setSecuenciaConsecutiva(false);
+            Settings.setSecuenciaConsecutiva();
             onOffButton.setText("Repetido");
         } else {
-            Settings.setSecuenciaConsecutiva(true);
+            Settings.setSecuenciaConsecutiva();
             onOffButton.setText("Consecutivo");
         }
     }//GEN-LAST:event_onOffButtonActionPerformed
 
-    private void selectFileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectFileButtonMouseClicked
+    private void selectFileButtonMouseClicked() {//GEN-FIRST:event_selectFileButtonMouseClicked
         cargarPdf();
     }//GEN-LAST:event_selectFileButtonMouseClicked
 
-    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-        //Asiganr Settings
+    private void jPanel7MouseClicked() {//GEN-FIRST:event_jPanel7MouseClicked
+        //Asignar Settings
         String nombreArchivo = nombreArchivoTextbox.getText();
         int folioInicial = Integer.parseInt(folioInicialField.getText());
         int folioFinal = Integer.parseInt(folioFinalField.getText());
-        float fontSize = Float.parseFloat(fontSizeBox.getSelectedItem().toString());
+        float fontSize = Float.parseFloat(Objects.requireNonNull(fontSizeBox.getSelectedItem()).toString());
+        Color color = new Color(255, 0, 0);
 
-        settings = new Settings(nombreArchivo, folioInicial, folioFinal, fontSize, numeroFolios);
+        settings = new Settings(nombreArchivo,
+                folioInicial,
+                folioFinal,
+                fontSize,
+                numeroFolios,
+                color);
 
-        //Asigar Coordenadas
+        //Asignar Coordenadas
         settings.setCoordenadas();
 
         while (true) {
@@ -354,6 +375,7 @@ public class Foliador extends javax.swing.JFrame {
             if (Settings.getUbicacionPdfOriginal() != null) {
                 //Crear PDF
                 CrearPdf crearPdf = new CrearPdf(settings);
+                crearPdf.crearPdf();
                 break;
             } else {
                 cargarPdf();
@@ -373,7 +395,7 @@ public class Foliador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -382,13 +404,8 @@ public class Foliador extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Foliador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Foliador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Foliador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Foliador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -397,61 +414,30 @@ public class Foliador extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Foliador().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new Foliador().setVisible(true));
     }
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Folio1Tab;
-    private javax.swing.JPanel background;
-    private javax.swing.JPanel barraInformativa;
-    public static javax.swing.JPanel barraPestañas;
-    private javax.swing.JPanel botonCerrar;
-    private javax.swing.JTextField cX;
-    private javax.swing.JTextField cY;
-    private javax.swing.JPanel configs;
+    public static javax.swing.JPanel barraPestanias;
     public static javax.swing.JTextField folioFinalField;
     public static javax.swing.JTextField folioInicialField;
+    public static javax.swing.JTextField numeroCopias;
     public static javax.swing.JComboBox<String> fontSizeBox;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JToggleButton jToggleButton1;
-    public static javax.swing.JPanel mesaTrabajo0;
-    private javax.swing.JPanel newFolio;
-    private javax.swing.JTextField nombreArchivoTextbox;
     private javax.swing.JToggleButton onOffButton;
-    private javax.swing.JPanel selectFileButton;
-    private javax.swing.JSlider sliderX;
-    private javax.swing.JSlider sliderY;
-    private javax.swing.JPanel vistaPrevia;
-    private javax.swing.JPanel vistaPreviaPanel;
+    public static javax.swing.JPanel mesaTrabajo0;
+    private javax.swing.JTextField nombreArchivoTextbox;
+    private JLabel jLabel4;
+
     public static javax.swing.JPanel workspace;
-    // End of variables declaration//GEN-END:variables
-
-    //Debe de recibir un arreglo del tipo JPanel, que contenga cada mesa de trabajo, que a su vez, contienen las coordenas de cada folio
-
+    // End of variables declaration                   
 
     private void cargarPdf() {
 
         //Ruta de la ubicación del PDF
         Settings.setUbicacionPdfOriginal();
 
-        //Coloacr el nombre del PDF en el cuadro de texto
+        //Colocar el nombre del PDF en el cuadro de texto
         nombreArchivoTextbox.setText(Settings.getNombreArchivo());
 
     }
