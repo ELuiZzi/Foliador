@@ -25,10 +25,6 @@ public class Settings {
     private static boolean duplicarPDF = true;
 
     //Aquí se almacenan las coordenadas
-
-    //Ventana se administrador de archivos, para seleccionar el PDF original
-    static JFileChooser fileChooser = new JFileChooser();
-
     private static int foliosPorHoja;
 
 
@@ -36,6 +32,8 @@ public class Settings {
     //En que número va a iniciar y terminar los folios
     private static int folioInicial;
     private static int folioFinal;
+
+    //Color del texto del folio
     private static Color color;
 
     private Coordenadas[] coordenadas;
@@ -43,7 +41,9 @@ public class Settings {
     //Tamaño de la fuente
     private static float fontSize;
 
-    //Color del texto del folio
+    // Nueva variable de control de estado para el orden de folios
+    private static boolean esConsecutivo = true;
+
 
     public Settings(String nombreArchivo, int folioInicial, int folioFinal, float fontSize, int foliosPorHoja, Color color) {
         Settings.nombreArchivo = nombreArchivo;
@@ -62,17 +62,24 @@ public class Settings {
     }
 
     public static void setUbicacionPdfOriginal() {
+        // Invocamos el explorador nativo de Windows mediante FileDialog
+        java.awt.FileDialog fileDialog = new java.awt.FileDialog((java.awt.Frame)null, "Seleccionar PDF a Foliar", java.awt.FileDialog.LOAD);
+        fileDialog.setFile("*.pdf"); // Filtro nativo
+        fileDialog.setVisible(true); // El hilo se pausa aquí hasta que el usuario elige un archivo
 
-        //Aparece la ventan del administrdor de archivos.
-        Settings.cuadroBusqueda();
+        String directorio = fileDialog.getDirectory();
+        String archivo = fileDialog.getFile();
 
-        Settings.ubicacionPdfOriginal = fileChooser.getSelectedFile();
+        if (directorio != null && archivo != null) {
+            Settings.ubicacionPdfOriginal = new java.io.File(directorio, archivo);
+            Settings.ruta = directorio;
 
-        Settings.ruta = Settings.ubicacionPdfOriginal.getAbsolutePath().replaceAll(fileChooser.getSelectedFile().getName(), "");
-
-        //Se asigna el nombre del archivo, remplazando su extensión
-        Settings.nombreArchivo = Settings.ubicacionPdfOriginal.getName().replaceAll(".pdf", "");
-
+            // Reemplazo robusto ignorando mayúsculas/minúsculas en la extensión
+            Settings.nombreArchivo = archivo.replaceAll("(?i)\\.pdf$", "");
+        } else {
+            // Manejo de cancelación para evitar excepciones posteriores
+            Settings.ubicacionPdfOriginal = null;
+        }
     }
 
     public static String getNombreArchivo() {
@@ -143,13 +150,6 @@ public class Settings {
         }
     }
 
-    //Abrir cuadro de busqueda, con filro de seleccion de archivos
-    private static void cuadroBusqueda() {
-        Settings.fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        fileChooser.showSaveDialog(null);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-    }
-
     public int calcularCantidadHojas() {
         int totalFolios = folioFinal - folioInicial + 1;
         return (int) Math.ceil((double) totalFolios / foliosPorHoja);
@@ -161,6 +161,16 @@ public class Settings {
 
     public static int getFolioFinal() {
         return folioFinal;
+    }
+
+    // Método actualizado para recibir el estado desde la interfaz
+    public static void setSecuenciaConsecutiva(boolean consecutivo) {
+        Settings.esConsecutivo = consecutivo;
+        System.out.println("Modo de secuencia actualizado. ¿Es consecutivo?: " + esConsecutivo);
+    }
+
+    public static boolean isSecuenciaConsecutiva() {
+        return esConsecutivo;
     }
 }
 

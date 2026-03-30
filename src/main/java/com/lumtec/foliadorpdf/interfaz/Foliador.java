@@ -23,7 +23,17 @@ public class Foliador extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Foliador");
 
+        // 1. Limpiar la basura del GUI Builder de NetBeans en tiempo de ejecución
+        barraPestanias.removeAll();
+        workspace.removeAll();
+
+        // 2. Inicializar el creador de pestañas
         newTab = new NewTab();
+        numeroFolios = 0; // Reiniciamos la cuenta de la ventana principal
+
+        // 3. Crear el Folio 1 con todas las propiedades avanzadas inyectadas
+        newTab.nuevoFolio();
+        this.numeroFolios++;
 
     }
 
@@ -53,6 +63,32 @@ public class Foliador extends javax.swing.JFrame {
 
         fontSizeBox = new javax.swing.JComboBox<>();
         JPanel jPanel8 = new JPanel();
+
+        // --- INICIO CONFIGURACIÓN COLOR ---
+        jPanel8.setBackground(java.awt.Color.RED); // Color por defecto
+        com.lumtec.foliadorpdf.creacion.Settings.setColor(java.awt.Color.RED);
+        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        // Evento para abrir el mini-menú de colores
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mostrarSelectorDeColor(jPanel8);
+            }
+        });
+        // --- FIN CONFIGURACIÓN COLOR ---
+
+        // (Mantén las líneas originales que añaden jPanel8 a "configs")
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 60, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 21, Short.MAX_VALUE)
+        );
+        configs.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(263, 10, 60, 21));
         JSeparator jSeparator4 = new JSeparator();
         onOffButton = new javax.swing.JToggleButton();
         JLabel jLabel2 = new JLabel();
@@ -123,6 +159,49 @@ public class Foliador extends javax.swing.JFrame {
 
         configs.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 15, 90, 30));
 
+        // --- INICIO BOTONES JSON ---
+
+        // 1. Botón para Cargar Plantilla
+        JPanel btnCargarPlantilla = new JPanel();
+        btnCargarPlantilla.setBackground(new java.awt.Color(100, 100, 100));
+        btnCargarPlantilla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCargarPlantilla.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        JLabel lblCargar = new JLabel("Cargar");
+        lblCargar.setForeground(new java.awt.Color(255, 255, 255));
+        lblCargar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnCargarPlantilla.add(lblCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 8, -1, -1));
+
+        btnCargarPlantilla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cargarPlantilla();
+            }
+        });
+        // Desplazado a la derecha (X: 710) y ancho ajustado a 70px
+        configs.add(btnCargarPlantilla, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 15, 70, 30));
+
+
+        // 2. Botón para Guardar Plantilla
+        JPanel btnGuardarPlantilla = new JPanel();
+        btnGuardarPlantilla.setBackground(new java.awt.Color(100, 100, 100));
+        btnGuardarPlantilla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarPlantilla.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        JLabel lblGuardar = new JLabel("Guardar");
+        lblGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        lblGuardar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnGuardarPlantilla.add(lblGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 8, -1, -1));
+
+        btnGuardarPlantilla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guardarPlantilla();
+            }
+        });
+        // Desplazado a la derecha (X: 785) y ancho ajustado a 70px
+        configs.add(btnGuardarPlantilla, new org.netbeans.lib.awtextra.AbsoluteConstraints(785, 15, 70, 30));
+
+        // --- FIN BOTONES JSON ---
+
         folioInicialField.setBackground(new java.awt.Color(73, 75, 78));
         folioInicialField.setForeground(new java.awt.Color(188, 188, 188));
         folioInicialField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -165,17 +244,6 @@ public class Foliador extends javax.swing.JFrame {
         configs.add(fontSizeBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 50, -1));
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 60, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 21, Short.MAX_VALUE)
-        );
 
         configs.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(263, 10, 60, 21));
 
@@ -338,12 +406,12 @@ public class Foliador extends javax.swing.JFrame {
         newTab.agregarMesaTrabajo(NewTab.getMesaTrabajo(0));
     }//GEN-LAST:event_Folio1TabMouseClicked
 
-    private void onOffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOffButtonActionPerformed
+    private void onOffButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if (onOffButton.isSelected()) {
-            Settings.setSecuenciaConsecutiva();
+            Settings.setSecuenciaConsecutiva(false); // Falso = Repetido
             onOffButton.setText("Repetido");
         } else {
-            Settings.setSecuenciaConsecutiva();
+            Settings.setSecuenciaConsecutiva(true);  // Verdadero = Consecutivo
             onOffButton.setText("Consecutivo");
         }
     }//GEN-LAST:event_onOffButtonActionPerformed
@@ -352,13 +420,15 @@ public class Foliador extends javax.swing.JFrame {
         cargarPdf();
     }//GEN-LAST:event_selectFileButtonMouseClicked
 
-    private void jPanel7MouseClicked() {//GEN-FIRST:event_jPanel7MouseClicked
-        //Asignar Settings
+    private void jPanel7MouseClicked() {
+        mostrarMensajeFlotante("Archivo en Proceso...git --version");
         String nombreArchivo = nombreArchivoTextbox.getText();
         int folioInicial = Integer.parseInt(folioInicialField.getText());
         int folioFinal = Integer.parseInt(folioFinalField.getText());
         float fontSize = Float.parseFloat(Objects.requireNonNull(fontSizeBox.getSelectedItem()).toString());
-        Color color = new Color(255, 0, 0);
+
+        // CAMBIO 1: Obtener el color real desde Settings (alimentado por el panel)
+        Color color = com.lumtec.foliadorpdf.creacion.Settings.getColor();
 
         settings = new Settings(nombreArchivo,
                 folioInicial,
@@ -367,23 +437,22 @@ public class Foliador extends javax.swing.JFrame {
                 numeroFolios,
                 color);
 
-        //Asignar Coordenadas
         settings.setCoordenadas();
 
         while (true) {
-            //Verificar que se ha seleccionado algún PDF
             if (Settings.getUbicacionPdfOriginal() != null) {
-                //Crear PDF
                 CrearPdf crearPdf = new CrearPdf(settings);
                 crearPdf.crearPdf();
+
+                // CAMBIO 2: Disparar la notificación visual
+
+
                 break;
             } else {
                 cargarPdf();
             }
         }
-
-
-    }//GEN-LAST:event_jPanel7MouseClicked
+    }
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (jToggleButton1.isSelected()) {
@@ -397,6 +466,9 @@ public class Foliador extends javax.swing.JFrame {
 
     public static void main(String[] args) {
 
+        // --- SOLUCIÓN PARA ACELERAR EL JFILECHOOSER ---
+        javax.swing.UIManager.put("FileChooser.useShellFolder", Boolean.FALSE);
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -405,13 +477,9 @@ public class Foliador extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                 UnsupportedLookAndFeelException ex) {
+                 javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Foliador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Foliador().setVisible(true));
@@ -440,6 +508,150 @@ public class Foliador extends javax.swing.JFrame {
         //Colocar el nombre del PDF en el cuadro de texto
         nombreArchivoTextbox.setText(Settings.getNombreArchivo());
 
+    }
+
+    private void guardarPlantilla() {
+        java.awt.FileDialog fd = new java.awt.FileDialog(this, "Guardar Plantilla de Coordenadas", java.awt.FileDialog.SAVE);
+        fd.setFile("*.json");
+        fd.setVisible(true);
+
+        String directorio = fd.getDirectory();
+        String archivo = fd.getFile();
+
+        if (directorio != null && archivo != null) {
+            String path = new java.io.File(directorio, archivo).getAbsolutePath();
+            if (!path.toLowerCase().endsWith(".json")) {
+                path += ".json";
+            }
+
+            java.util.List<com.lumtec.foliadorpdf.modelo.Coordenadas> lista = new java.util.ArrayList<>();
+            for (int i = 0; i < numeroFolios; i++) {
+                javax.swing.JPanel mesa = com.lumtec.foliadorpdf.modelo.NewTab.getMesaTrabajo(i);
+                if (mesa != null) {
+                    javax.swing.JTextField cX = (javax.swing.JTextField) mesa.getComponent(0);
+                    javax.swing.JTextField cY = (javax.swing.JTextField) mesa.getComponent(1);
+                    float x = Float.parseFloat(cX.getText());
+                    float y = Float.parseFloat(cY.getText());
+                    lista.add(new com.lumtec.foliadorpdf.modelo.Coordenadas(x, y));
+                }
+            }
+
+            com.lumtec.foliadorpdf.utils.CoordenadasExporter.exportarCoordenadas(lista, path);
+            mostrarMensajeFlotante("Coordenadas Guardadas"); // Usando un mensaje limpio
+        }
+    }
+
+    private void cargarPlantilla() {
+        java.awt.FileDialog fd = new java.awt.FileDialog(this, "Cargar Plantilla de Coordenadas", java.awt.FileDialog.LOAD);
+        fd.setFile("*.json");
+        fd.setVisible(true);
+
+        String directorio = fd.getDirectory();
+        String archivo = fd.getFile();
+
+        if (directorio != null && archivo != null) {
+            String path = new java.io.File(directorio, archivo).getAbsolutePath();
+            java.util.List<com.lumtec.foliadorpdf.modelo.Coordenadas> listaCargada =
+                    com.lumtec.foliadorpdf.utils.CoordenadasImporter.importarCoordenadas(path);
+
+            if (listaCargada != null && !listaCargada.isEmpty()) {
+                barraPestanias.removeAll();
+                workspace.removeAll();
+                com.lumtec.foliadorpdf.modelo.NewTab.resetTabs();
+                this.numeroFolios = 0;
+
+                for (int i = 0; i < listaCargada.size(); i++) {
+                    newTab.nuevoFolio();
+                    this.numeroFolios++;
+
+                    javax.swing.JPanel mesa = com.lumtec.foliadorpdf.modelo.NewTab.getMesaTrabajo(i);
+                    javax.swing.JTextField cX = (javax.swing.JTextField) mesa.getComponent(0);
+                    javax.swing.JTextField cY = (javax.swing.JTextField) mesa.getComponent(1);
+
+                    com.lumtec.foliadorpdf.modelo.Coordenadas coord = listaCargada.get(i);
+
+                    cX.setText(coord.getX() % 1 == 0 ? String.valueOf((int)coord.getX()) : String.valueOf(coord.getX()));
+                    cY.setText(coord.getY() % 1 == 0 ? String.valueOf((int)coord.getY()) : String.valueOf(coord.getY()));
+                }
+
+                newTab.agregarMesaTrabajo(com.lumtec.foliadorpdf.modelo.NewTab.getMesaTrabajo(0));
+                barraPestanias.revalidate();
+                barraPestanias.repaint();
+
+                mostrarMensajeFlotante("Coordenadas Cargadas");
+            }
+        }
+    }
+
+    //http://googleusercontent.com/immersive_entry_chip/0
+
+    // Método para el Menú Desplegable de Colores
+    private void mostrarSelectorDeColor(javax.swing.JPanel panelColor) {
+        javax.swing.JPopupMenu popup = new javax.swing.JPopupMenu();
+
+        // Colores rápidos y limpios
+        java.awt.Color[] colores = {
+                java.awt.Color.RED, java.awt.Color.BLACK, java.awt.Color.BLUE,
+                new java.awt.Color(0, 153, 0), java.awt.Color.DARK_GRAY
+        };
+        String[] nombres = {"Rojo", "Negro", "Azul", "Verde", "Gris"};
+
+        for (int i = 0; i < colores.length; i++) {
+            final java.awt.Color c = colores[i];
+            javax.swing.JMenuItem item = new javax.swing.JMenuItem(nombres[i]);
+            item.setBackground(c);
+            item.setForeground(java.awt.Color.WHITE); // Texto en blanco para contraste
+            item.addActionListener(e -> {
+                panelColor.setBackground(c);
+                com.lumtec.foliadorpdf.creacion.Settings.setColor(c);
+            });
+            popup.add(item);
+        }
+
+        // Opción para abrir la paleta completa si se requiere algo muy específico
+        popup.addSeparator();
+        javax.swing.JMenuItem customItem = new javax.swing.JMenuItem("Personalizado...");
+        customItem.addActionListener(e -> {
+            java.awt.Color elegido = javax.swing.JColorChooser.showDialog(this, "Selecciona un Color para el Folio", panelColor.getBackground());
+            if (elegido != null) {
+                panelColor.setBackground(elegido);
+                com.lumtec.foliadorpdf.creacion.Settings.setColor(elegido);
+            }
+        });
+        popup.add(customItem);
+
+        // Desplegar justo debajo del cuadrito de color
+        popup.show(panelColor, 0, panelColor.getHeight());
+    }
+
+    // Método para la Notificación Flotante (Toast)
+    private void mostrarMensajeFlotante(String mensaje) {
+        // JWindow es ideal porque no tiene bordes de ventana nativos
+        javax.swing.JWindow toast = new javax.swing.JWindow(this);
+        toast.setBackground(new java.awt.Color(0, 0, 0, 0)); // Fondo transparente
+
+        javax.swing.JPanel panel = new javax.swing.JPanel();
+        panel.setBackground(new java.awt.Color(50, 50, 50, 240)); // Gris oscuro moderno y translúcido
+        panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(100, 100, 100)));
+
+        javax.swing.JLabel label = new javax.swing.JLabel(mensaje);
+        label.setForeground(java.awt.Color.WHITE);
+        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        label.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 25, 12, 25)); // Padding
+
+        panel.add(label);
+        toast.add(panel);
+        toast.pack();
+
+        // Centrar respecto a la ventana principal, y bajarlo un poco
+        toast.setLocationRelativeTo(this);
+        java.awt.Point loc = toast.getLocation();
+        toast.setLocation(loc.x, loc.y + 120);
+
+        toast.setVisible(true);
+
+        // Temporizador para autodestruir el mensaje después de 2 segundos (2000 ms)
+        new javax.swing.Timer(2000, e -> toast.dispose()).start();
     }
 
 }

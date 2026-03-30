@@ -1,130 +1,162 @@
 package com.lumtec.foliadorpdf.modelo;
 
 import com.lumtec.foliadorpdf.interfaz.Foliador;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Locale;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 public class NewTab {
 
-    private static int nTab = 1;
+    // Cambio arquitectónico: Iniciamos en 0 para generar el Folio 1 dinámicamente
+    private static int nTab = 0;
 
     private static final JPanel[] mesasTrabajo = new JPanel[NewTabUtil.maxTabs];
 
-    //Los paneles que editaremos son siempre los mismos, es por eso que los iniciamos, y no los heredamos con argumentos.
-    //El primero es el Panel del contenido, y el segundo es la barra de Pestañas.
     private final JPanel barraPestanias = Foliador.barraPestanias;
     private final JPanel worktable = Foliador.workspace;
 
     public NewTab() {
-        //Si el índice está vació, asignar el Panel por primera vez.
-        if(mesasTrabajo[0] == null){
-            mesasTrabajo[0] = Foliador.mesaTrabajo0;
-        }
-
-        
+        // Se elimina la vinculación forzada a Foliador.mesaTrabajo0
     }
 
     public void nuevoFolio() {
-        //Se pueden crear 9 folios máximo
         if (nTab < NewTabUtil.maxTabs) {
             this.crearPestania();
             this.crearMesaTrabajo();
+
+            // Forzar a que la mesa de trabajo recién creada se muestre en pantalla
+            agregarMesaTrabajo(getMesaTrabajo(nTab));
+
             nTab++;
         }
-
     }
 
-     /*
-    Crear el panel Pestaña, con sus elementos y configuraciones
-    */
     private void crearPestania() {
-
         JPanel pestania = new JPanel();
-
-        //El título de la pestania es el número de pestañas más 1, porque el Folio 1, ya está en default
         JLabel titulo = new JLabel("Folio " + (nTab + 1));
         titulo.setForeground(NewTabUtil.BACKGROUND_LABEL);
 
-        //Nombre de pestania, para identificar el número de folio
         pestania.setName(Integer.toString(nTab));
         pestania.setLayout(new AbsoluteLayout());
         pestania.setBackground(NewTabUtil.BACKGROUND_TAB);
         pestania.add(titulo, new AbsoluteConstraints(7, 7));
         pestania.setVisible(true);
 
-        /*ActionListener para el JPanel 'pestania', que funge como botón
-        Que solo funciona al dar clic dentro del panel, no influye en el comportamiento inicial
-        */
         pestania.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //Convertir el nombre a int, que es index dentro del arreglo de mesas de trabajo.
                 int index = Integer.parseInt(pestania.getName());
-                
                 agregarMesaTrabajo(getMesaTrabajo(index));
             }
-
         });
 
         agregarPestania(pestania);
-
     }
 
-    
-    /*
-    Crear el panel Mesa de Trabajo, con sus elementos y configuraciones
-    */
     private void crearMesaTrabajo() {
-
         int ejeYField = 75;
         int widthField = 110;
         int heigthField = 25;
 
         JPanel mesaTrabajo = new JPanel();
 
-        //Componentes
-        JSlider sliderX, sliderY;
-        JTextField cX, cY;
-
-
-        cX = new JTextField(String.valueOf(nTab + 1));
-        cY = new JTextField(String.valueOf(nTab + 1));
+        JTextField cX = new JTextField(String.valueOf(nTab + 1));
+        JTextField cY = new JTextField(String.valueOf(nTab + 1));
 
         cX.setHorizontalAlignment(JTextField.CENTER);
         cY.setHorizontalAlignment(JTextField.CENTER);
 
+        KeyAdapter controlTeclado = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    manejarIncrementoPosicional((JTextField) e.getSource(), e.getKeyCode());
+                    e.consume();
+                }
+            }
+        };
 
-        sliderX = new JSlider();
-        sliderY = new JSlider();
-
-        sliderX.setOrientation(JSlider.HORIZONTAL);
-        sliderY.setOrientation(JSlider.VERTICAL);
-        sliderX.setBackground(NewTabUtil.BACKGROUND_MESA_TRABAJO);
-        sliderY.setBackground(NewTabUtil.BACKGROUND_MESA_TRABAJO);
+        cX.addKeyListener(controlTeclado);
+        cY.addKeyListener(controlTeclado);
 
         mesaTrabajo.setLayout(new AbsoluteLayout());
         mesaTrabajo.setBackground(NewTabUtil.BACKGROUND_MESA_TRABAJO);
-        mesaTrabajo.add(cX, new AbsoluteConstraints(70, ejeYField, widthField, heigthField));
-        mesaTrabajo.add(cY, new AbsoluteConstraints(300, ejeYField, widthField, heigthField));
-        mesaTrabajo.add(sliderX, new AbsoluteConstraints(60, 110, 130, 25));
-        mesaTrabajo.add(sliderY, new AbsoluteConstraints(410, 20, 25, 130));
+
+        mesaTrabajo.add(cX, new AbsoluteConstraints(120, ejeYField, widthField, heigthField));
+        mesaTrabajo.add(cY, new AbsoluteConstraints(280, ejeYField, widthField, heigthField));
 
         asignarMesaTrabajo(mesaTrabajo);
-
-        agregarMesaTrabajo(mesaTrabajo);
-
     }
 
-    
-     /*
-    Agregar a la barra de Pestañas, un panel
-    */
+    private void manejarIncrementoPosicional(JTextField field, int keyCode) {
+        try {
+            String text = field.getText();
+            int caretPos = field.getCaretPosition();
+
+            if (text.isEmpty()) return;
+
+            int targetPos = caretPos;
+            if (targetPos == text.length()) {
+                targetPos = text.length() - 1;
+            }
+
+            int decimalIndex = text.indexOf('.');
+            int power = 0;
+            int decimalPlaces = 0;
+
+            if (decimalIndex == -1) {
+                power = text.length() - 1 - targetPos;
+            } else {
+                // Contar cuántos decimales existen actualmente
+                decimalPlaces = text.length() - 1 - decimalIndex;
+
+                if (targetPos < decimalIndex) {
+                    power = decimalIndex - 1 - targetPos;
+                } else if (targetPos > decimalIndex) {
+                    power = decimalIndex - targetPos;
+                } else {
+                    return;
+                }
+            }
+
+            float increment = (float) Math.pow(10, Math.max(0, power));
+            if(power < 0) increment = (float) Math.pow(10, power);
+
+            float currentValue = Float.parseFloat(text);
+
+            if (keyCode == KeyEvent.VK_UP) {
+                currentValue += increment;
+            } else if (keyCode == KeyEvent.VK_DOWN) {
+                currentValue -= increment;
+            }
+
+            currentValue = Math.round(currentValue * 10000f) / 10000f;
+
+            String newText;
+            // Solución: Forzar el formato para mantener los ceros decimales si existían
+            if (decimalPlaces > 0) {
+                newText = String.format(Locale.US, "%." + decimalPlaces + "f", currentValue);
+            } else {
+                newText = String.format(Locale.US, "%.0f", currentValue);
+            }
+
+            field.setText(newText);
+
+            int newCaretPos = caretPos + (newText.length() - text.length());
+            field.setCaretPosition(Math.max(0, Math.min(newCaretPos, newText.length())));
+
+        } catch (NumberFormatException ex) {
+            // Ignorar eventos si no es un número calculable
+        }
+    }
+
     private void agregarPestania(JPanel pestania) {
         int ubicacionX = nTab * 90;
         barraPestanias.add(pestania, new AbsoluteConstraints(ubicacionX, 0, 90, 30));
@@ -132,12 +164,8 @@ public class NewTab {
         barraPestanias.repaint();
     }
 
-     /*
-    Agregar a Background, un panel
-    */
     public void agregarMesaTrabajo(JPanel mesaTrabajo) {
         worktable.removeAll();
-
         worktable.add(mesaTrabajo, new AbsoluteConstraints(0, 0, 510, 500));
         worktable.revalidate();
         worktable.repaint();
@@ -149,6 +177,14 @@ public class NewTab {
 
     public static JPanel getMesaTrabajo(int index) {
         return NewTab.mesasTrabajo[index];
+    }
+
+    // Método para purgar la memoria estática antes de cargar un archivo JSON
+    public static void resetTabs() {
+        nTab = 0;
+        for (int i = 0; i < mesasTrabajo.length; i++) {
+            mesasTrabajo[i] = null;
+        }
     }
 
 }
