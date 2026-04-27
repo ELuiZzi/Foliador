@@ -34,6 +34,9 @@ public class NewTab {
             // Forzar a que la mesa de trabajo recién creada se muestre en pantalla
             agregarMesaTrabajo(getMesaTrabajo(nTab));
 
+            // NUEVO: Resaltar la pestaña que se acaba de crear
+            resaltarPestania(nTab);
+
             nTab++;
         }
     }
@@ -54,6 +57,9 @@ public class NewTab {
             public void mouseClicked(MouseEvent e) {
                 int index = Integer.parseInt(pestania.getName());
                 agregarMesaTrabajo(getMesaTrabajo(index));
+
+                // NUEVO: Llamar al resaltado visual al hacer clic
+                resaltarPestania(index);
             }
         });
 
@@ -185,6 +191,42 @@ public class NewTab {
         for (int i = 0; i < mesasTrabajo.length; i++) {
             mesasTrabajo[i] = null;
         }
+    }
+
+    // Método para cambiar el color y fuente de la pestaña activa
+    public void resaltarPestania(int indexActivo) {
+        // Definimos los colores (Activo = Claro, Inactivo = Oscuro)
+        java.awt.Color colorActivo = new java.awt.Color(100, 100, 110);
+        java.awt.Color colorInactivo = new java.awt.Color(62, 65, 67);
+
+        java.awt.Component[] pestanias = barraPestanias.getComponents();
+
+        for (java.awt.Component comp : pestanias) {
+            if (comp instanceof JPanel) {
+                JPanel pestania = (JPanel) comp;
+
+                // Verificamos si esta pestaña es la que el usuario seleccionó
+                if (pestania.getName() != null && pestania.getName().equals(String.valueOf(indexActivo))) {
+                    pestania.setBackground(colorActivo);
+                    // Poner texto en negritas
+                    java.awt.Component[] internos = pestania.getComponents();
+                    if(internos.length > 0 && internos[0] instanceof JLabel) {
+                        ((JLabel) internos[0]).setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+                        ((JLabel) internos[0]).setForeground(java.awt.Color.WHITE);
+                    }
+                } else {
+                    pestania.setBackground(colorInactivo);
+                    // Poner texto normal
+                    java.awt.Component[] internos = pestania.getComponents();
+                    if(internos.length > 0 && internos[0] instanceof JLabel) {
+                        ((JLabel) internos[0]).setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 12));
+                        ((JLabel) internos[0]).setForeground(new java.awt.Color(188, 188, 188));
+                    }
+                }
+            }
+        }
+        barraPestanias.revalidate();
+        barraPestanias.repaint();
     }
 
 }

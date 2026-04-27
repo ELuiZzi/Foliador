@@ -76,6 +76,8 @@ public class Settings {
 
             // Reemplazo robusto ignorando mayúsculas/minúsculas en la extensión
             Settings.nombreArchivo = archivo.replaceAll("(?i)\\.pdf$", "");
+            // Invocar el renderizador en la interfaz gráfica
+            com.lumtec.foliadorpdf.interfaz.Foliador.lienzoVistaPrevia.cargarPDF(Settings.ubicacionPdfOriginal);
         } else {
             // Manejo de cancelación para evitar excepciones posteriores
             Settings.ubicacionPdfOriginal = null;

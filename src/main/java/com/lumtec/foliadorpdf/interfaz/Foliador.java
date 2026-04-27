@@ -42,8 +42,26 @@ public class Foliador extends javax.swing.JFrame {
     private void initComponents() {
 
         JPanel background = new JPanel();
+        background.setBackground(new java.awt.Color(51, 51, 51));
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         JPanel vistaPreviaPanel = new JPanel();
-        JPanel vistaPrevia = new JPanel();
+
+        // 1. Configuramos el panel blanco de la derecha
+        vistaPreviaPanel.setBackground(new java.awt.Color(255, 255, 255));
+        vistaPreviaPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        // 2. Creamos el Lienzo y blindamos su tamaño (310x410)
+        lienzoVistaPrevia = new LienzoRender();
+        lienzoVistaPrevia.setSize(310, 410);
+        lienzoVistaPrevia.setPreferredSize(new java.awt.Dimension(310, 410));
+
+        // 3. Agregamos el lienzo al panel blanco
+        vistaPreviaPanel.add(lienzoVistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 310, 410));
+
+        // 4. Agregamos el panel blanco al fondo gris
+        background.add(vistaPreviaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 90, 460, 500));
+
         JPanel configs = new JPanel();
         JPanel jPanel7 = new JPanel();
 
@@ -118,27 +136,6 @@ public class Foliador extends javax.swing.JFrame {
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        background.setBackground(new java.awt.Color(51, 51, 51));
-        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        vistaPreviaPanel.setBackground(new java.awt.Color(255, 255, 255));
-        vistaPreviaPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        javax.swing.GroupLayout vistaPreviaLayout = new javax.swing.GroupLayout(vistaPrevia);
-        vistaPrevia.setLayout(vistaPreviaLayout);
-        vistaPreviaLayout.setHorizontalGroup(
-                vistaPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 310, Short.MAX_VALUE)
-        );
-        vistaPreviaLayout.setVerticalGroup(
-                vistaPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 410, Short.MAX_VALUE)
-        );
-
-        vistaPreviaPanel.add(vistaPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 310, 410));
-
-        background.add(vistaPreviaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 90, 460, 500));
 
         configs.setBackground(new java.awt.Color(78, 78, 78));
         configs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -466,8 +463,12 @@ public class Foliador extends javax.swing.JFrame {
 
     public static void main(String[] args) {
 
-        // --- SOLUCIÓN PARA ACELERAR EL JFILECHOOSER ---
+        // Solución para acelerar el JFileChooser
         javax.swing.UIManager.put("FileChooser.useShellFolder", Boolean.FALSE);
+
+        // --- SOLUCIÓN PARA SILENCIAR LAS ADVERTENCIAS DE PDFBOX ---
+        org.apache.log4j.BasicConfigurator.configure();
+        org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.ERROR);
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -498,16 +499,25 @@ public class Foliador extends javax.swing.JFrame {
     private JLabel jLabel4;
 
     public static javax.swing.JPanel workspace;
-    // End of variables declaration                   
+    // End of variables declaration
+
+    public static LienzoRender lienzoVistaPrevia;
 
     private void cargarPdf() {
 
-        //Ruta de la ubicación del PDF
+        // 1. Abre el explorador para seleccionar el archivo
         Settings.setUbicacionPdfOriginal();
 
-        //Colocar el nombre del PDF en el cuadro de texto
-        nombreArchivoTextbox.setText(Settings.getNombreArchivo());
+        // 2. Si el usuario seleccionó un archivo (no le dio a cancelar)
+        if (Settings.getUbicacionPdfOriginal() != null) {
 
+            // Colocar el nombre del PDF en el cuadro de texto
+            nombreArchivoTextbox.setText(Settings.getNombreArchivo());
+
+            // 3. --- EL GATILLO: INVOCAR EL RENDERIZADO VISUAL ---
+            lienzoVistaPrevia.cargarPDF(Settings.getUbicacionPdfOriginal());
+
+        }
     }
 
     private void guardarPlantilla() {
